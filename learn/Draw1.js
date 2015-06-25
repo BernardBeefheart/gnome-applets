@@ -1,5 +1,7 @@
 /*
  * Draw1.js
+ * see at:
+ *	https://wiki.gnome.org/Projects/GnomeShell/Extensions/StepByStepTutorial#knowingJavascript
  * run :
  *	gjs-console Draw1.js
  */

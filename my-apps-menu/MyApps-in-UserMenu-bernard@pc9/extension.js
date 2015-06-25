@@ -34,38 +34,61 @@
  */
 const St = imports.gi.St;
 const Main = imports.ui.main;
-// const Tweener = imports.ui.tweener;
 const Lang = imports.lang;
 const Shell = imports.gi.Shell;
 const GLib = imports.gi.GLib;
 const PopupMenu = imports.ui.popupMenu;
 
-// Other javascript files in the my_apps_menu-bernard@pc9 directory are accesible via Extension.<file name>
-// empêche le démarrage de l'appli
-// const Extension = imports.ui.extensionSystem.extensions['MyApps-in-UserMenu-bernard@pc9'];
+let appSystem, menu, entries;
 
-let button, menu;
+function Entry (appId, appName) {
+	var _button = null;
+	var _appId = appId;
+	var _appName = appName;
+
+	this.enable = function() {
+		_button = new PopupMenu.PopupMenuItem(_appName);
+		_button.connect('activate', 
+						Lang.bind(_button,
+								  function () {
+									  Main.overview.hide();
+									  let app = appSystem.lookup_app(_appId);
+									  if (app) {
+										  app.activate();
+									  }
+								  }));
+		menu.addMenuItem(_button, 5);
+	};
+	this.disable = function() {
+		if (_button) {
+			_button.destroy();
+		}
+	};
+}
 
 
 function init(metadata) {
+	entries = [
+		new Entry('netbeans-8.0.1.desktop', 'NetBeans 8'),
+		new Entry('gnome-terminal.desktop', 'Gnome Terminal'),
+		new Entry('kde4-kate.desktop', 'Kate'),
+		new Entry('shotwell-viewer.desktop', 'Shotwell')
+	];
     menu = Main.panel._statusArea.userMenu.menu;
-}
-
-function _buttonActivate() {
-    Main.overview.hide();
-    let app = Shell.AppSystem.get_default().lookup_app('/usr/bin/gvim');
-    app.activate();
+	appSystem = Shell.AppSystem.get_default();
 }
 
 function enable() {
-    button = new PopupMenu.PopupMenuItem("GVim");
-    button.connect('activate', Lang.bind(button, _buttonActivate));
-    menu.addMenuItem(button, 5);
+	var len = entries.length;
+	for (var i=0; i<len; i++) {
+		entries[i].enable();
+	}
 }
 
 function disable() {
-    if (button) {
-        button.destroy();
-    }
+	var len = entries.length;
+	for (var i=0; i<len; i++) {
+		entries[i].enable();
+	}
 }
 

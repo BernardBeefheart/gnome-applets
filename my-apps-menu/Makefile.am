@@ -3,7 +3,8 @@
 
 packagedir = gnome-shell/extensions
 
-SUBDIRS = src 
+SUBDIRS = src \
+	my_apps_menu-bernard@pc9 
 
 # Remove doc directory on uninstall
 uninstall-local:

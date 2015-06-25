@@ -1,8 +1,0 @@
-{
-    "shell-version": ["3.2.0"],
-    "uuid": "my_apps_menu-bernard@pc9",
-    "name": "my-apps-menu",
-    "original-author": "bernard",
-    "url": "https://github.com/BernardBeefheart/gnome-applets",
-    "description": "add some menu entries for my preferred apps"
-}

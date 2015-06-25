@@ -16,4 +16,5 @@ LT_INIT
 AC_OUTPUT([
 Makefile
 src/Makefile
+my_apps_menu-bernard@pc9/Makefile
 ])

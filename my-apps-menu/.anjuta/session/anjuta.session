@@ -2,14 +2,14 @@
 Maximized=1
 Geometry=1354x703+0+27
 
+[Project Manager]
+Expand=my-apps-menu
+
 [File Loader]
-Files=../../src/stylesheet.css#1%%%../../src/metadata.json#7%%%../../src/extension.js#11
+Files=../../my_apps_menu-bernard@pc9/metadata.json#2
 
 [Document Manager]
 bookmarks=<?xml version="1.0" encoding="UTF-8"?>\n<bookmarks/>\n
-
-[Project Manager]
-Expand=my-apps-menu%%%my-apps-menu//src%%%my-apps-menu//src//js
 
 [Execution]
 Run in terminal=2

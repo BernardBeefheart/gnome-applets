@@ -41,7 +41,8 @@ const GLib = imports.gi.GLib;
 const PopupMenu = imports.ui.popupMenu;
 
 // Other javascript files in the my_apps_menu-bernard@pc9 directory are accesible via Extension.<file name>
-const Extension = imports.ui.extensionSystem.extensions['my_apps_menu-bernard@pc9'];
+// empêche le démarrage de l'appli
+// const Extension = imports.ui.extensionSystem.extensions['MyApps-in-UserMenu-bernard@pc9'];
 
 let button, menu;
 
@@ -52,12 +53,12 @@ function init(metadata) {
 
 function _buttonActivate() {
     Main.overview.hide();
-    let app = Shell.AppSystem.get_default().lookup_app('firefox');
+    let app = Shell.AppSystem.get_default().lookup_app('/usr/bin/gvim');
     app.activate();
 }
 
 function enable() {
-    button = new PopupMenu.PopupMenuItem("Firefox");
+    button = new PopupMenu.PopupMenuItem("GVim");
     button.connect('activate', Lang.bind(button, _buttonActivate));
     menu.addMenuItem(button, 5);
 }

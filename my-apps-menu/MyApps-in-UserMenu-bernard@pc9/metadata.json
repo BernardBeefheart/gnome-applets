@@ -11,8 +11,8 @@
         "3.3.91",
         "3.3.92"
     ],
-    "uuid": "my_apps_menu-bernard@pc9",
-    "name": "my-apps-menu",
+    "uuid": "MyApps-in-UserMenu-bernard@pc9",
+    "name": "MyApps in UserMenu by bernard",
     "original-author": "bernard",
     "url": "https://github.com/BernardBeefheart/gnome-applets",
     "description": "My preferred apps in user menu",

@@ -1,7 +1,7 @@
 #!/bin/sh
 
 dst=~/.local/share/gnome-shell/extensions
-edir=my_apps_menu-bernard@pc9
+edir=MyApps-in-UserMenu-bernard@pc9
 files="extension.js metadata.json"
 
 mkdir -p $dst/$edir 2>/dev/null

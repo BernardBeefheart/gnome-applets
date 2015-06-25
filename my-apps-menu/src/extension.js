@@ -2,7 +2,7 @@
 /*
  * extension.js
  * Copyright (C) 2015 bernard <bernard.beefheart@gmail.com>
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -14,7 +14,7 @@
  * 3. Neither the name ``bernard'' nor the name of any other
  *    contributor may be used to endorse or promote products derived
  *    from this software without specific prior written permission.
- * 
+ *
  * my-apps-menu IS PROVIDED BY bernard ``AS IS'' AND ANY EXPRESS
  * OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -28,60 +28,43 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+/*
+ * this code is based upon :
+ * https://github.com/DeanF/Terminal-in-UserMenu-Gnome-Extension
+ */
 const St = imports.gi.St;
 const Main = imports.ui.main;
-const Tweener = imports.ui.tweener;
+// const Tweener = imports.ui.tweener;
+const Lang = imports.lang;
+const Shell = imports.gi.Shell;
+const GLib = imports.gi.GLib;
+const PopupMenu = imports.ui.popupMenu;
 
 // Other javascript files in the my_apps_menu-bernard@pc9 directory are accesible via Extension.<file name>
 const Extension = imports.ui.extensionSystem.extensions['my_apps_menu-bernard@pc9'];
 
-let text, button;
+let button, menu;
 
-function _hideHello() {
-    Main.uiGroup.remove_actor(text);
-    text = null;
+
+function init(metadata) {
+    menu = Main.panel._statusArea.userMenu.menu;
 }
 
-function _showHello() {
-    if (!text) {
-        text = new St.Label({ style_class: '-label', text: "Hello, world!" });
-        Main.uiGroup.add_actor(text);
-    }
-
-    text.opacity = 255;
-
-    let monitor = Main.layoutManager.primaryMonitor;
-
-    text.set_position(Math.floor(monitor.width / 2 - text.width / 2),
-                      Math.floor(monitor.height / 2 - text.height / 2));
-
-    Tweener.addTween(text,
-                     { opacity: 0,
-                       time: 2,
-                       transition: 'easeOutQuad',
-                       onComplete: _hideHello });
-}
-
-function init() {
-    button = new St.Bin({ style_class: 'panel-button',
-                          reactive: true,
-                          can_focus: true,
-                          x_fill: true,
-                          y_fill: false,
-                          track_hover: true });
-    let icon = new St.Icon({ icon_name: 'system-run',
-                             icon_type: St.IconType.SYMBOLIC,
-                             style_class: 'system-status-icon' });
-
-    button.set_child(icon);
-    button.connect('button-press-event', _showHello);
+function _buttonActivate() {
+    Main.overview.hide();
+    let app = Shell.AppSystem.get_default().lookup_app('firefox');
+    app.activate();
 }
 
 function enable() {
-    Main.panel._rightBox.insert_actor(button, 0);
+    button = new PopupMenu.PopupMenuItem("Firefox");
+    button.connect('activate', Lang.bind(button, _buttonActivate));
+    menu.addMenuItem(button, 5);
 }
 
 function disable() {
-    Main.panel._rightBox.remove_actor(button);
+    if (button) {
+        button.destroy();
+    }
 }
 

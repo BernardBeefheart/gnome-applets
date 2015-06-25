@@ -3,6 +3,6 @@
     "uuid": "my_apps_menu-bernard@pc9",
     "name": "my-apps-menu",
     "original-author": "bernard",
-    "url": "http://mydomain.org",
+    "url": "https://github.com/BernardBeefheart/gnome-applets",
     "description": "add some menu entries for my preferred apps"
 }

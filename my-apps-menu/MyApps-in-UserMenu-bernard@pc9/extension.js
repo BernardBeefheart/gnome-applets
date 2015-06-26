@@ -32,15 +32,15 @@
  * this code is based upon :
  * https://github.com/DeanF/Terminal-in-UserMenu-Gnome-Extension
  */
-const Extension = imports.misc.extensionUtils.getCurrentExtension();
-const Joose = Extension.imports.libs.Joose;
-
 const St = imports.gi.St;
 const Main = imports.ui.main;
 const Lang = imports.lang;
 const Shell = imports.gi.Shell;
 const GLib = imports.gi.GLib;
 const PopupMenu = imports.ui.popupMenu;
+
+const Extension = imports.misc.extensionUtils.getCurrentExtension();
+const Joose = Extension.imports.libs.Joose;
 
 
 let appSystem, menu, entries;

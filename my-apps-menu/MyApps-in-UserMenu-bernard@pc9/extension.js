@@ -32,6 +32,9 @@
  * this code is based upon :
  * https://github.com/DeanF/Terminal-in-UserMenu-Gnome-Extension
  */
+const Extension = imports.misc.extensionUtils.getCurrentExtension();
+const Joose = Extension.imports.libs.Joose;
+
 const St = imports.gi.St;
 const Main = imports.ui.main;
 const Lang = imports.lang;
@@ -39,40 +42,50 @@ const Shell = imports.gi.Shell;
 const GLib = imports.gi.GLib;
 const PopupMenu = imports.ui.popupMenu;
 
+
 let appSystem, menu, entries;
 
-function Entry (appId, appName) {
-	var _button = null;
-	var _appId = appId;
-	var _appName = appName;
+Joose.Class("Entry", {
+	has: {
+		_button: {is: 'n/a', init: null},
+		_appId: {is: 'n/a', init: null},
+		_appName: {is: 'n/a', init: null},
+	},
+	methods: {
+		initialize: function(appId, appName) {
+			this._appId = appId;
+			this._appName = appName;
+		},
+		enable: function() {
+			this._button = new PopupMenu.PopupMenuItem(this._appName);
+			this._button.connect('activate', 
+							Lang.bind(this._button,
+									  function () {
+										  Main.overview.hide();
+										  let app = appSystem.lookup_app(this._appId);
+										  if (app) {
+											  app.activate();
+										  }
+									  }));
+									  menu.addMenuItem(this._button, 5);
+		},
 
-	this.enable = function() {
-		_button = new PopupMenu.PopupMenuItem(_appName);
-		_button.connect('activate', 
-						Lang.bind(_button,
-								  function () {
-									  Main.overview.hide();
-									  let app = appSystem.lookup_app(_appId);
-									  if (app) {
-										  app.activate();
-									  }
-								  }));
-		menu.addMenuItem(_button, 5);
-	};
-	this.disable = function() {
-		if (_button) {
-			_button.destroy();
+		disable: function() {
+			if (this._button) {
+				this._button.destroy();
+			}
 		}
-	};
-}
+	}
+});
 
 
 function init(metadata) {
 	entries = [
-		new Entry('netbeans-8.0.1.desktop', 'NetBeans 8'),
-		new Entry('gnome-terminal.desktop', 'Gnome Terminal'),
-		new Entry('kde4-kate.desktop', 'Kate'),
-		new Entry('shotwell-viewer.desktop', 'Shotwell')
+		new Joose.Entry('shotwell-viewer.desktop', 'Shotwell'),
+		new Joose.Entry('chromium-app-list.desktop', 'Chromium applications'),
+		new Joose.Entry('gnome-terminal.desktop', 'Gnome Terminal'),
+		new Joose.Entry('kde4-kate.desktop', 'Kate'),
+		new Joose.Entry('netbeans-8.0.1.desktop', 'NetBeans 8'),
 	];
     menu = Main.panel._statusArea.userMenu.menu;
 	appSystem = Shell.AppSystem.get_default();

@@ -17,3 +17,7 @@ The extension add entries to the user menu which launches some of my top ten app
 To install it for the current user, run _onstall.sh_ from a terminal.
 
 Using _Joose_ is not mandatory, it was used to learn how to do external libs integration.
+
+### note
+I know that I don't write english very well. Tell me if I'm wrong!:wa
+

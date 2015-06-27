@@ -1406,10 +1406,10 @@ Joose.Method.prototype = {
         this._name  = name;
         this._body  = func;
         this._props = props;
-        
-        func.name   = name;
     
         func.meta   = this;
+        
+        func.name   = name;
     },
     
     isClassMethod: function () { return this._isClassMethod; },

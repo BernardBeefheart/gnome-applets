@@ -32,21 +32,13 @@
  * this code is based upon :
  * https://github.com/DeanF/Terminal-in-UserMenu-Gnome-Extension
  */
-const St = imports.gi.St;
-const Main = imports.ui.main;
-const Lang = imports.lang;
-const Shell = imports.gi.Shell;
-const GLib = imports.gi.GLib;
-const PopupMenu = imports.ui.popupMenu;
 
 const Extension = imports.misc.extensionUtils.getCurrentExtension();
 const Joose = Extension.imports.libs.Joose;
 const App = Extension.imports.Application;
 const Entry = Extension.imports.Entry;
 
-
-
-
+let entries = null;
 
 function init(metadata) {
 	App.Application.init();
@@ -57,10 +49,6 @@ function init(metadata) {
 		new Joose.Entry('kde4-kate.desktop', 'Kate'),
 		new Joose.Entry('netbeans-8.0.1.desktop', 'NetBeans 8'),
 	];
-	/*
-    menu = Main.panel._statusArea.userMenu.menu;
-	appSystem = Shell.AppSystem.get_default();
-   */
 }
 
 function enable() {

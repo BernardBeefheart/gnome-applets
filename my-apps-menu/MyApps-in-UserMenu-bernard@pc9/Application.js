@@ -32,7 +32,6 @@ const Main = imports.ui.main;
 const Shell = imports.gi.Shell;
 
 
-let entries = null;
 
 var Application = (function () {
 	var appSystem = null, 

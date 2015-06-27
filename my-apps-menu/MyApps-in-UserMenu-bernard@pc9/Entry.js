@@ -1,6 +1,6 @@
 /* -*- mode: js2; js2-basic-offset: 4; indent-tabs-mode: nil -*- */
 /*
- * extension.js
+ * Entry.js
  * Copyright (C) 2015 bernard <bernard.beefheart@gmail.com>
  *
  * Redistribution and use in source and binary forms, with or without
@@ -28,54 +28,48 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/*
- * this code is based upon :
- * https://github.com/DeanF/Terminal-in-UserMenu-Gnome-Extension
- */
-const St = imports.gi.St;
+
 const Main = imports.ui.main;
 const Lang = imports.lang;
-const Shell = imports.gi.Shell;
-const GLib = imports.gi.GLib;
 const PopupMenu = imports.ui.popupMenu;
+
 
 const Extension = imports.misc.extensionUtils.getCurrentExtension();
 const Joose = Extension.imports.libs.Joose;
-const App = Extension.imports.Application;
-const Entry = Extension.imports.Entry;
+const App= Extension.imports.Application;
 
 
 
+Joose.Class("Entry", {
+	has: {
+		_button: {is: 'n/a', init: null},
+		_appId: {is: 'n/a', init: null},
+		_appName: {is: 'n/a', init: null},
+	},
+	methods: {
+		initialize: function(appId, appName) {
+			this._appId = appId;
+			this._appName = appName;
+		},
+		enable: function() {
+			this._button = new PopupMenu.PopupMenuItem(this._appName);
+			this._button.connect('activate', 
+							Lang.bind(this._button,
+									  function () {
+										  Main.overview.hide();
+										  let app = App.Application.getAppSystem.lookup_app(this._appId);
+										  if (app) {
+											  app.activate();
+										  }
+									  }));
+									  App.Application.getMenu().addMenuItem(this._button, 5);
+		},
 
-
-function init(metadata) {
-	App.Application.init();
-	entries = [
-		new Joose.Entry('shotwell-viewer.desktop', 'Shotwell'),
-		new Joose.Entry('chromium-app-list.desktop', 'Chromium applications'),
-		new Joose.Entry('gnome-terminal.desktop', 'Gnome Terminal'),
-		new Joose.Entry('kde4-kate.desktop', 'Kate'),
-		new Joose.Entry('netbeans-8.0.1.desktop', 'NetBeans 8'),
-	];
-	/*
-    menu = Main.panel._statusArea.userMenu.menu;
-	appSystem = Shell.AppSystem.get_default();
-   */
-}
-
-function enable() {
-	var len = entries.length;
-
-	for (var i=0; i<len; i++) {
-		entries[i].enable();
+		disable: function() {
+			if (this._button) {
+				this._button.destroy();
+			}
+		}
 	}
-}
-
-function disable() {
-	var len = entries.length;
-
-	for (var i=0; i<len; i++) {
-		entries[i].enable();
-	}
-}
+});
 

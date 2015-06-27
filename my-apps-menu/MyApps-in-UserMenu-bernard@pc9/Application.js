@@ -1,6 +1,6 @@
 /* -*- mode: js2; js2-basic-offset: 4; indent-tabs-mode: nil -*- */
 /*
- * extension.js
+ * Application.js
  * Copyright (C) 2015 bernard <bernard.beefheart@gmail.com>
  *
  * Redistribution and use in source and binary forms, with or without
@@ -28,54 +28,26 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/*
- * this code is based upon :
- * https://github.com/DeanF/Terminal-in-UserMenu-Gnome-Extension
- */
-const St = imports.gi.St;
 const Main = imports.ui.main;
-const Lang = imports.lang;
 const Shell = imports.gi.Shell;
-const GLib = imports.gi.GLib;
-const PopupMenu = imports.ui.popupMenu;
-
-const Extension = imports.misc.extensionUtils.getCurrentExtension();
-const Joose = Extension.imports.libs.Joose;
-const App = Extension.imports.Application;
-const Entry = Extension.imports.Entry;
 
 
+let entries = null;
 
-
-
-function init(metadata) {
-	App.Application.init();
-	entries = [
-		new Joose.Entry('shotwell-viewer.desktop', 'Shotwell'),
-		new Joose.Entry('chromium-app-list.desktop', 'Chromium applications'),
-		new Joose.Entry('gnome-terminal.desktop', 'Gnome Terminal'),
-		new Joose.Entry('kde4-kate.desktop', 'Kate'),
-		new Joose.Entry('netbeans-8.0.1.desktop', 'NetBeans 8'),
-	];
-	/*
-    menu = Main.panel._statusArea.userMenu.menu;
-	appSystem = Shell.AppSystem.get_default();
-   */
-}
-
-function enable() {
-	var len = entries.length;
-
-	for (var i=0; i<len; i++) {
-		entries[i].enable();
-	}
-}
-
-function disable() {
-	var len = entries.length;
-
-	for (var i=0; i<len; i++) {
-		entries[i].enable();
-	}
-}
+var Application = (function () {
+	var appSystem = null, 
+		menu = null; 
+	return {
+		getAppSystem: function() {
+			return appSystem;
+		},
+		getMenu: function() {
+			return menu;
+		},
+		init: function() {
+			menu = Main.panel._statusArea.userMenu.menu;
+			appSystem = Shell.AppSystem.get_default();
+		}
+	};
+})();
 
